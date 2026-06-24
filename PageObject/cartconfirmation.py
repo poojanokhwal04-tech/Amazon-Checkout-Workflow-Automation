@@ -1,16 +1,12 @@
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
+from PageObject.BasePage import BASEPAGE
 from PageObject.cart import CART
 
+class CARTCONFIRMATION(BASEPAGE):
 
-class CARTCONFIRMATION:
-
-    def __init__(self,driver,wait, ):
-        self.driver=driver
-        self.wait=wait
+    def __init__(self, driver, wait):
+        super().__init__(driver, wait)
 
     text_cartconfirmation_xpath = '//h1[@class="a-size-medium-plus a-color-base sw-atc-text a-text-bold"]'
-    # input_addtocart_xpath='(//input[@type="submit"])[3]'
     button_gotocart_xpath = '//a[@href="/cart?ref_=sw_gtc"]'
     button_proceedtobuy_name = 'proceedToRetailCheckout'
     text_cartcount_id='nav-cart-count'
@@ -18,24 +14,21 @@ class CARTCONFIRMATION:
     img_productclick_xpath='(//img[@class="sw-product-image"])[1]'
 
     def verifying_cart_confirmation_page(self):
-        return self.wait.until(EC.text_to_be_present_in_element((By.XPATH, self.text_cartconfirmation_xpath), 'Added to cart'))
+        return self.text_to_be_present('text_cartconfirmation_xpath', self.text_cartconfirmation_xpath,'Added to cart' )
 
     def click_on_go_to_cart_button(self):
-        self.wait.until(EC.visibility_of_element_located((By.XPATH, self.button_gotocart_xpath))).click()
+        self.click_on_element('button_gotocart_xpath', self.button_gotocart_xpath)
         return CART(self.driver,self.wait)
 
     def click_on_proceed_to_but_on_cart_confirmation_page(self):
-        self.wait.until(EC.visibility_of_element_located((By.XPATH, self.button_proceedtobuy_name))).click()
+        self.click_on_element('button_proceedtobuy_name', self.button_proceedtobuy_name)
 
     def get_incremented_value_of_product_quantity_in_cart(self):
-        return self.wait.until(EC.visibility_of_element_located((By.ID, self.text_cartcount_id))).text
-
-    # def click_on_add_to_cart_on_cart_confirm_page(self):
-    #     self.wait.until(EC.visibility_of_element_located((By.XPATH, self.input_addtocart_xpath))).click()
+        return self.get_element_text('text_cartcount_id', self.text_cartcount_id)
 
     def get_subtotal(self):
-        subtotal= self.wait.until(EC.visibility_of_element_located((By.XPATH, self.text_subtotal_xpath))).text
+        subtotal = self.get_element_text('text_subtotal_xpath', self.text_subtotal_xpath)
         return int(subtotal.replace(",", ""))
 
     def click_on_a_new_product_below(self):
-        self.wait.until(EC.visibility_of_element_located((By.XPATH, self.img_productclick_xpath))).click()
+        self.click_on_element('img_productclick_xpath', self.img_productclick_xpath)

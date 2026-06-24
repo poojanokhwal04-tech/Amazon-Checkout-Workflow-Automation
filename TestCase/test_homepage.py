@@ -1,8 +1,7 @@
 from PageObject.homepage import HOMEPAGE
-import pytest
+from TestCase.BaseTest import BASETEST
 
-@pytest.mark.usefixtures('setup')
-class TestHomePage:
+class TestHomePage(BASETEST):
 
     def test_001_verify_home_page(self):
         homepagetitle= HOMEPAGE(self.driver,self.wait)
@@ -10,5 +9,3 @@ class TestHomePage:
             assert True
         else:
             self.driver.save_screenshot('ss.png')
-
-

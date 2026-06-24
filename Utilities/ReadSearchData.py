@@ -1,3 +1,7 @@
-searchitem="Long Knee Blazer Men"
+
+
+
+
+searchitem="Blazer"
 searchcategory="Clothing & Accessories"
 quantity=3

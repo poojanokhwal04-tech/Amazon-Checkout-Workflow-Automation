@@ -34,4 +34,4 @@ def setup(request):
 
     driver.get(url)
     yield path
-    driver.quit()
+    # driver.quit()

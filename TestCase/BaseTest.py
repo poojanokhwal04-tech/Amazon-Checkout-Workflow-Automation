@@ -1,12 +1,13 @@
 from time import sleep
+
+import pytest
+from selenium.common import TimeoutException
 from PageObject.cart import CART
 from PageObject.signinpage import SIGNIN
 
-class CheckOutFlow:
 
-    def __init__(self,driver,wait):
-        self.driver=driver
-        self.wait=wait
+@pytest.mark.usefixtures('setup')
+class BASETEST:
 
     def flow_from_homepage_to_product_details_page(self):
         signin = SIGNIN(self.driver, self.wait)
@@ -22,17 +23,19 @@ class CheckOutFlow:
         return product
 
     def flow_from_proceed_to_buy_to_checkout_using_scan_and_pay(self):
-        cart=CART(self.driver, self.wait)
+        cart = CART(self.driver, self.wait)
 
         checkout = cart.click_on_proceed_to_buy_on_cart_page()
         assert checkout.verify_checkout_page(), "Checkout page didn't open"
-        assert checkout.verify_if_use_this_payment_method_is_enabled()==False, " 'Use this payment method' button didn't get enabled"
         sleep(2)
+        assert checkout.verify_if_use_this_payment_method_is_enabled() == False, " 'Use this payment method' button didn't get enabled"
         checkout.click_on_scan_and_pay()
         sleep(2)
         assert checkout.verify_selection_of_scan_and_pay(), " 'Scan and Pay' radio button didn't get selected"
-        assert checkout.verify_if_use_this_payment_method_is_enabled(), " 'Use this payment method' button didn't get enabled"
+        assert checkout.verify_if_use_this_payment_method_is_enabled(), " 'Use this payment method' button enablility couldn't be confirmed"
         checkout.click_on_use_this_payment_method()
+        try:
+            checkout.click_on_cross_to_close_popup()
+        except TimeoutException:
+            pass
         assert checkout.verify_if_pay_with_upi_is_enabled(), " 'Pay with UPI' button didn't get enabled"
-
-
