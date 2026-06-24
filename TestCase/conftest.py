@@ -2,11 +2,9 @@ from selenium.webdriver import Edge,EdgeOptions
 from selenium.webdriver import Firefox,FirefoxOptions
 from selenium.webdriver import Chrome,ChromeOptions
 from selenium.webdriver.support.wait import WebDriverWait
-import pytest
-
 from Utilities import ReadConfigini
 from Utilities.ReadScreenshotPath import screenshotpath
-
+import pytest
 
 @pytest.fixture
 def setup(request):
@@ -36,4 +34,4 @@ def setup(request):
 
     driver.get(url)
     yield path
-    # driver.quit()
+    driver.quit()

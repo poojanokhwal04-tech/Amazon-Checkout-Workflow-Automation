@@ -17,19 +17,22 @@ class CheckOutFlow:
         assert searchresults.verify_search_results_page(), "Search Results didn't show: Failed"
         product = searchresults.click_on_one_of_the_results()
         product.switch_to_product_details_child_browser()
-        assert searchresults.verify_product_details_page(), "Product details page didn't appear: Failed"
+
+        assert product.verify_product_details_page(), "Product details page didn't appear: Failed"
         return product
 
-    def flow_from_proceed_to_buy_to_checkout_using_COD(self):
-        cart=CART(self.wait)
+    def flow_from_proceed_to_buy_to_checkout_using_scan_and_pay(self):
+        cart=CART(self.driver, self.wait)
 
         checkout = cart.click_on_proceed_to_buy_on_cart_page()
         assert checkout.verify_checkout_page(), "Checkout page didn't open"
+        assert checkout.verify_if_use_this_payment_method_is_enabled()==False, " 'Use this payment method' button didn't get enabled"
         sleep(2)
-        checkout.verify_if_use_this_payment_method_is_enabled(), "'Use this payment method' button didn't get enabled"
-        checkout.click_on_cash_on_delivery()
+        checkout.click_on_scan_and_pay()
         sleep(2)
-        assert checkout.verify_selection_of_COD(), "COD radio button didn't get selected"
-        assert checkout.verify_if_use_this_payment_method_is_enabled(), "'Use this payment method' button didn't get enabled"
+        assert checkout.verify_selection_of_scan_and_pay(), " 'Scan and Pay' radio button didn't get selected"
+        assert checkout.verify_if_use_this_payment_method_is_enabled(), " 'Use this payment method' button didn't get enabled"
         checkout.click_on_use_this_payment_method()
-        assert checkout.verify_if_place_oder_button_is_enabled(), "'Place Order' button didn't get enabled"
+        assert checkout.verify_if_pay_with_upi_is_enabled(), " 'Pay with UPI' button didn't get enabled"
+
+

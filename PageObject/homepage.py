@@ -1,7 +1,6 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.select import Select
-
 from PageObject.cart import CART
 from PageObject.searchresults import SEARCHRESULTS
 from Utilities.ReadSearchData import searchitem, searchcategory
@@ -28,7 +27,7 @@ class HOMEPAGE:
 
     def click_on_cart_icon(self):
         self.wait.until(EC.visibility_of_element_located((By.ID, self.text_cartcount_id))).click()
-        return CART(self.wait)
+        return CART(self.driver, self.wait)
 
     def click_on_sign_in_link(self):
         self.wait.until(EC.visibility_of_element_located((By.XPATH, self.button_signin_xpath))).click()

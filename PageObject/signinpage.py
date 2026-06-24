@@ -31,7 +31,7 @@ class SIGNIN:
         self.wait.until(EC.visibility_of_element_located((By.XPATH, self.button_continue_xpath))).click() #continue button click
 
     def verify_password_page(self):
-        return self.wait.until(EC.text_to_be_present_in_element((By.XPATH, self.title_passwordpage_xpath),"Amazon Sign In"))
+        return self.wait.until(EC.title_is,"Amazon Sign In")
 
     def enter_password(self,password):
         self.wait.until(EC.visibility_of_element_located((By.NAME, self.textbox_password_name))).clear()

@@ -5,8 +5,8 @@ import pytest
 class TestHomePage:
 
     def test_001_verify_home_page(self):
-        homepagetitle= HOMEPAGE(self.wait)
-        if homepagetitle.verify_homepage_title()==True:
+        homepagetitle= HOMEPAGE(self.driver,self.wait)
+        if homepagetitle.verify_homepage_title():
             assert True
         else:
             self.driver.save_screenshot('ss.png')

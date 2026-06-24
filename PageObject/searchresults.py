@@ -13,12 +13,12 @@ class SEARCHRESULTS:
     div_product_xpath='//div[@data-component-type="s-search-result"]'
     # img_product_xpath='//img[@class="s-image"]'
     text_productname_getattribute_xpath='//h2[@class="a-size-base-plus a-spacing-none a-color-base a-text-normal"]'
-    # text_productprice_xpath='//span[@class="a-price"]'
+    text_productprice_xpath='//span[@class="a-price"]'
     # text_rating_xpath='//span[@class="a-icon-alt"]'
 
     text_addtocart_xpath = '//button[text()="Add to cart"]'
-    button_addtocartpopupAccept_xpath='//button[@id="a-autoid-176-announce"]'
-    button_addtocartpopupCancel_xpath='//span[@id="a-autoid-191-announce"]'
+    button_addtocartpopupAccept_xpath='(//div[@class="a-row a-size-medium"])[1]//child::button[text()="Add to cart"]'
+    button_addtocartpopupCancel_xpath='(//div[@class="a-row a-size-medium"])[1]//child::span[text()="Cancel"]'
 
     #verify search results page
     def verify_search_results_page(self):
@@ -39,7 +39,7 @@ class SEARCHRESULTS:
     #             pass
     #     finalproductnameelements[1].click()
 
-    def click_on_the_first_result(self):
+    def click_on_one_of_the_results(self):
         productnameelements = self.wait.until(EC.presence_of_all_elements_located((By.XPATH, self.text_productname_getattribute_xpath)))
         for i in range(len(productnameelements)):
             productarialabel=productnameelements[i].get_attribute('aria-label')
@@ -62,7 +62,7 @@ class SEARCHRESULTS:
     #     return self.wait.until(EC.visibility_of_all_elements_located((By.XPATH, self.text_rating_xpath)))
 
     def click_on_add_to_cart_button_on_search_result_page(self):
-        return self.wait.until(EC.visibility_of_all_elements_located((By.XPATH, self.text_addtocart_xpath)))
+        self.wait.until(EC.visibility_of_element_located((By.XPATH, self.text_addtocart_xpath))).click()
 
     #add to cart popup after clicking on 'Add to Cart'
     def click_on_accept_on_add_to_cart_popup(self):

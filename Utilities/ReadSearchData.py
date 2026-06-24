@@ -1,3 +1,3 @@
-searchitem="Skirts"
+searchitem="Long Knee Blazer Men"
 searchcategory="Clothing & Accessories"
-quantity=1
+quantity=3
