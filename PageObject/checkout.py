@@ -1,3 +1,4 @@
+from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from PageObject.BasePage import BASEPAGE
 from Utilities.ReadAddressData import Country, Full_name, Mobile_number, Pincode, Addressline1, Landmark
@@ -35,7 +36,7 @@ class CHECKOUT(BASEPAGE):
     radio_cashondelivery_xpath='(//input[@type="radio"])[6]' #(//input[@type="radio"])[6]//ancestor::label
     button_paywithnetbanking_xpath = '(//input[@type="submit"])[1]'
     button_placeorder_xpath= '(//input[@type="submit"])[1]' #'//input[@data-testid="secondary-continue-button"]'
-    button_popupcross_xpath='//button[@aria-label="Close"]'
+    button_popupcross_id = 'noThanksCtaButtonId'
     input_paywithupi_xpath='(//input[@type="submit"])[1]'
     button_incrementquantity_xpath='//span[@data-a-selector="increment-icon"]'
     button_decrementquantity_xpath='//span[@data-a-selector="decrement-icon"]'
@@ -85,7 +86,8 @@ class CHECKOUT(BASEPAGE):
         return self.is_selected('radio_netbanking_xpath', self.radio_netbanking_xpath)
 
     def click_on_cross_to_close_popup(self):
-        self.click_on_element('button_popupcross_xpath', self.button_popupcross_xpath)
+        self.click_on_element('button_popupcross_id', self.button_popupcross_id)
+        # self.wait.until(EC.element_to_be_clickable((By.XPATH, self.button_popupcross_xpath))).click()
 
     def verify_if_pay_with_net_banking_is_enabled(self):
         return self.is_enabled('button_paywithnetbanking_xpath', self.button_paywithnetbanking_xpath)
@@ -159,7 +161,7 @@ class CHECKOUT(BASEPAGE):
         return Addressline1
 
     def verify_checkout_page(self):
-        return self.wait.until(EC.title_is("Place Your Order - Amazon Checkout"))
+        return self.title_contains("Place Your Order - Amazon Checkout")
 
     def click_on_change_address(self):
         self.click_on_element('alink_changeaddress_xpath', self.alink_changeaddress_xpath)

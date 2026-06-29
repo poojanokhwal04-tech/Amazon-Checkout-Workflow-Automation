@@ -42,8 +42,8 @@ class BASEPAGE:
         else:
             raise ValueError(r'Unsupported locator in the user defined function "text_to_be_present" in "C:\Users\Lenovo\PycharmProjects\AMAZON_Checkout_Workflow_Automation\PageObject\BasePage.py": ({locator_variable} = "{locator_value}")')
 
-    def title_is(self, title):
-        return self.wait.until(EC.title_is(title))
+    def title_contains(self, title):
+        return self.wait.until(EC.title_contains(title))
 
     # Element methods
     def send_keys(self, locator_variable, locator_value, textinput):

@@ -1,41 +1,47 @@
 from time import sleep
-
+from Utilities.ReadScreenshotPath import screenshotpath
 import pytest
 from selenium.common import TimeoutException
 from PageObject.cart import CART
 from PageObject.signinpage import SIGNIN
+from Utilities.ReadScreenshotPath import screenshotpath
 
 
 @pytest.mark.usefixtures('setup')
 class BASETEST:
 
+    def assertion(self, condition, message):
+        if not condition:
+            self.driver.save_screenshot(self.path)
+            assert False, message
+
     def flow_from_homepage_to_product_details_page(self):
         signin = SIGNIN(self.driver, self.wait)
 
         homepage = signin.sign_in_with_valid_credentials()
-        assert homepage.verify_sign_in(), "Sign-in failed"
+        self.assertion(homepage.verify_sign_in(), "Sign-in failed")
         searchresults = homepage.search_for_an_item()
-        assert searchresults.verify_search_results_page(), "Search Results didn't show: Failed"
+        self.assertion(searchresults.verify_search_results_page(), "Search Results didn't show: Failed")
         product = searchresults.click_on_one_of_the_results()
         product.switch_to_product_details_child_browser()
 
-        assert product.verify_product_details_page(), "Product details page didn't appear: Failed"
+        self.assertion(product.verify_product_details_page(), "Product details page didn't appear: Failed")
         return product
 
     def flow_from_proceed_to_buy_to_checkout_using_scan_and_pay(self):
         cart = CART(self.driver, self.wait)
 
         checkout = cart.click_on_proceed_to_buy_on_cart_page()
-        assert checkout.verify_checkout_page(), "Checkout page didn't open"
+        self.assertion(checkout.verify_checkout_page(), "Checkout page didn't open")
         sleep(2)
-        assert checkout.verify_if_use_this_payment_method_is_enabled() == False, " 'Use this payment method' button didn't get enabled"
+        self.assertion(not checkout.verify_if_use_this_payment_method_is_enabled(), " 'Use this payment method' button didn't get enabled")
         checkout.click_on_scan_and_pay()
         sleep(2)
-        assert checkout.verify_selection_of_scan_and_pay(), " 'Scan and Pay' radio button didn't get selected"
-        assert checkout.verify_if_use_this_payment_method_is_enabled(), " 'Use this payment method' button enablility couldn't be confirmed"
+        self.assertion(checkout.verify_selection_of_scan_and_pay(), " 'Scan and Pay' radio button didn't get selected")
+        self.assertion(checkout.verify_if_use_this_payment_method_is_enabled(), " 'Use this payment method' button enablility couldn't be confirmed")
         checkout.click_on_use_this_payment_method()
         try:
             checkout.click_on_cross_to_close_popup()
-        except TimeoutException:
-            pass
-        assert checkout.verify_if_pay_with_upi_is_enabled(), " 'Pay with UPI' button didn't get enabled"
+        except:
+            raise
+        self.assertion(checkout.verify_if_pay_with_upi_is_enabled(), " 'Pay with UPI' button didn't get enabled")

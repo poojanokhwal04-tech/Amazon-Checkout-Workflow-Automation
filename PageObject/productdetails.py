@@ -33,6 +33,3 @@ class PRODUCTDETAILS(BASEPAGE):
     def get_product_price(self):
         subtotal = self.get_element_text('text_productprice_xpath', self.text_productprice_xpath)
         return int(subtotal.replace(",", ""))
-
-
-

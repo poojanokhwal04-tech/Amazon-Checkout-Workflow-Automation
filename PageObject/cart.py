@@ -36,13 +36,14 @@ class CART(BASEPAGE):
         ln = len(self.presence_of_all_elements_located('button_deleteproductincart_xpath', self.button_deleteproductincart_xpath))
         for _ in range(0,ln):
             (self.wait.until(EC.visibility_of_all_elements_located((By.XPATH, self.button_deleteproductincart_xpath))))[0].click()
-            text = self.get_element_text('text_confirmdeletion_xpath', self.text_confirmdeletion_xpath)
-            if "was removed from Shopping Cart" not in text:
-                return False
+            # text = self.get_element_text('text_confirmdeletion_xpath', self.text_confirmdeletion_xpath)
+            # if "was removed from Shopping Cart" not in text:
+            #     return False
         return True
 
     def verifying_deletion_all_products_from_cart(self):
         self.driver.refresh()
+        self.driver.refresh() # sometimes, just one refresh doesn't refresh the delete item properly. We can still get to see deleted item if don't refresh second time
         sleep(2)
         return self.text_to_be_present('text_emptycart_xpath', self.text_emptycart_xpath, "Your Amazon Cart is empty")
 

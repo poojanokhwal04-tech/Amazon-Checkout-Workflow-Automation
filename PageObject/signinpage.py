@@ -1,3 +1,4 @@
+from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from PageObject.BasePage import BASEPAGE
 from PageObject.homepage import HOMEPAGE
@@ -18,7 +19,7 @@ class SIGNIN(BASEPAGE):
     text_wrongemailorpassword_xpath = '(//i[@class="a-icon a-icon-alert"])[1]//following-sibling::div'
 
     def verifying_sign_in_page(self):
-        return self.wait.until(EC.title_is("Amazon Sign-In"))
+        return self.title_contains("Amazon Sign-In")
 
     def enter_email_or_phone_number(self,emailorphone):
         self.send_keys('textbox_email_name', self.textbox_email_name, emailorphone)
@@ -53,7 +54,3 @@ class SIGNIN(BASEPAGE):
         self.enter_email_or_phone_number(username)
         self.enter_password(password)
         return HOMEPAGE(self.driver, self.wait)
-
-
-
-

@@ -30,4 +30,3 @@ class SEARCHRESULTS(BASEPAGE):
 
     def click_on_accept_on_add_to_cart_popup(self):
         self.click_on_element('button_addtocartpopupAccept_xpath', self.button_addtocartpopupAccept_xpath)
-

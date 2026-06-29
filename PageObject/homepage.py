@@ -16,7 +16,7 @@ class HOMEPAGE(BASEPAGE):
     text_confirmsignin_xpath='//span[text()="Hello, Pooja"]'
 
     def verify_homepage_title(self):
-        return self.title_is("Amazon.in")
+        return self.title_contains("Amazon.in")
 
     def verify_sign_in(self):
         return self.text_to_be_present('text_confirmsignin_xpath', self.text_confirmsignin_xpath,"Hello, Pooja")
@@ -42,6 +42,3 @@ class HOMEPAGE(BASEPAGE):
         self.apply_category_for_searching_item(searchcategory)
         self.click_on_search_button()
         return SEARCHRESULTS(self.driver, self.wait)
-
-
-

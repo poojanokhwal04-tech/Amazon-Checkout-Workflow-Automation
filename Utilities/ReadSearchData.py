@@ -1,7 +1,3 @@
-
-
-
-
-searchitem="Blazer"
+searchitem="Blazer Women"
 searchcategory="Clothing & Accessories"
 quantity=3
