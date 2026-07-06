@@ -7,40 +7,7 @@ from time import sleep
 
 class TestCheckoutFlow(BASETEST):
 
-    def test_301_before_sign_in(self): # E2E-001: Complete Checkout Using COD, E2E-010: Existing Address Checkout, E2E-015: Gift Option Checkout
-        signin = SIGNIN(self.driver, self.wait)
-        homepage=HOMEPAGE(self.driver, self.wait)
-        username, password = ReadCredentials.get_credentials()
-
-        searchresults = homepage.search_for_an_item()
-        self.assertion(searchresults.verify_search_results_page(), "Search Result Page Verification failed")
-        product = searchresults.click_on_one_of_the_results()
-        product.switch_to_product_details_child_browser()
-        self.assertion(product.verify_product_details_page(), "Product details page didn't appear: Failed")
-        cartconfirm = product.add_product_to_cart_on_product_details_page()
-
-        self.assertion(cartconfirm.verifying_cart_confirmation_page(), "Product didn't add to cart: Cart Confirmation failed")
-        cart = cartconfirm.click_on_go_to_cart_button()
-        self.assertion(cart.verifying_cart_page(), "Cart page didn't open")
-        cart.click_on_this_order_contains_gift_checkbox()
-        checkout = cart.click_on_proceed_to_buy_on_cart_page()
-        self.assertion(signin.verifying_sign_in_page(), "Sign-in failed")
-        signin.enter_email_or_phone_number(username)
-        signin.enter_password(password)
-        self.assertion(checkout.verify_checkout_page(), "Checkout page didn't open")
-        assert checkout.verify_checkout_page(), "Checkout page didn't open"
-        checkout.click_on_safe_gift_options()
-        sleep(2)
-        self.assertion(not checkout.verify_if_use_this_payment_method_is_enabled(), " 'Use this payment method' button is enabled but it shouldn't be")
-        checkout.click_on_cash_on_delivery()
-        sleep(2)
-        self.assertion(checkout.verify_selection_of_COD(), "COD radio button didn't get selected")
-        self.assertion(checkout.verify_if_use_this_payment_method_is_enabled(), " 'Use this payment method' button enablility couldn't be confirmed")
-        checkout.click_on_use_this_payment_method()
-        self.assertion(checkout.verify_if_place_oder_button_is_enabled(), " 'Place Order' button didn't get enabled")
-
-    # Pre-requisite: Deselect Gifts option
-    def test_302_after_sign_in(self): # E2E-003: Complete Checkout Using UPI / Scan & Pay
+    def test_301_after_sign_in(self): # E2E-003: Complete Checkout Using UPI / Scan & Pay
         product = self.flow_from_homepage_to_product_details_page()
 
         cartconfirm = product.add_product_to_cart_on_product_details_page()
@@ -50,7 +17,7 @@ class TestCheckoutFlow(BASETEST):
 
         self.flow_from_proceed_to_buy_to_checkout_using_scan_and_pay()
 
-    def test_303_using_buy_now_option_on_product_details_page(self): #E2E-002: Complete Checkout Using Net Banking, E2E-004: Buy Now Flow
+    def test_302_using_buy_now_option_on_product_details_page(self): #E2E-002: Complete Checkout Using Net Banking, E2E-004: Buy Now Flow
         product = self.flow_from_homepage_to_product_details_page()
 
         checkout = product.click_on_buy_now()
@@ -65,7 +32,7 @@ class TestCheckoutFlow(BASETEST):
         checkout.click_on_cross_to_close_popup()
         self.assertion(checkout.verify_if_pay_with_net_banking_is_enabled(), "'Place Order' button didn't get enabled")
 
-    def test_304_increase_decrease_cart_product_quantity(self): # E2E-007: Increase/Decrease Quantity, E2E-013: Verify Price Consistency
+    def test_303_increase_decrease_cart_product_quantity(self): # E2E-007: Increase/Decrease Quantity, E2E-013: Verify Price Consistency
         checkout = CHECKOUT(self.driver,self.wait)
         product = self.flow_from_homepage_to_product_details_page()
 
@@ -99,7 +66,7 @@ class TestCheckoutFlow(BASETEST):
         onlyitemsprice=checkout.get_itemsprice_only()
         self.assertion(onlyitemsprice == subtotalafterdecrease, "Inconsistency in Items Price on Checkout")
 
-    def test_305_delete_cart_product(self): # E2E-008: Delete Product From Cart, E2E-009: Delete All Products From Cart
+    def test_304_delete_cart_product(self): # E2E-008: Delete Product From Cart, E2E-009: Delete All Products From Cart
         product = self.flow_from_homepage_to_product_details_page()
         cartconfirm = product.add_product_to_cart_on_product_details_page()
         self.assertion(cartconfirm.verifying_cart_confirmation_page(), "Product didn't add to cart: Cart Confirmation failed")
@@ -109,7 +76,7 @@ class TestCheckoutFlow(BASETEST):
         cart.click_on_delete_to_delete_all_products_from_cart()
         self.assertion(cart.verifying_deletion_all_products_from_cart(), "Product didn't get deleted from the Cart")
 
-    def test_306_adding_product_to_cart_from_search_results_page(self): # E2E-005: Add Product From Search Results
+    def test_305_adding_product_to_cart_from_search_results_page(self): # E2E-005: Add Product From Search Results
         signin = SIGNIN(self.driver, self.wait)
         homepage = HOMEPAGE(self.driver, self.wait)
 
@@ -124,7 +91,7 @@ class TestCheckoutFlow(BASETEST):
 
         self.flow_from_proceed_to_buy_to_checkout_using_scan_and_pay()
 
-    def test_307_add_multiple_products(self): # E2E-006: Multiple Products Checkout,
+    def test_306_add_multiple_products(self): # E2E-006: Multiple Products Checkout,
         product = self.flow_from_homepage_to_product_details_page()
 
         cartconfirm = product.add_product_to_cart_on_product_details_page()
@@ -143,7 +110,7 @@ class TestCheckoutFlow(BASETEST):
 
         self.flow_from_proceed_to_buy_to_checkout_using_scan_and_pay()
 
-    def test_308_use_a_new_address(self): # E2E-011: Select New Address
+    def test_307_use_a_new_address(self): # E2E-011: Select New Address
         product = self.flow_from_homepage_to_product_details_page()
         cartconfirm = product.add_product_to_cart_on_product_details_page()
         self.assertion(cartconfirm.verifying_cart_confirmation_page(), "Product didn't add to cart: Cart Confirmation failed")
@@ -164,3 +131,35 @@ class TestCheckoutFlow(BASETEST):
         self.assertion(checkout.verify_if_use_this_payment_method_is_enabled(), "'Use this payment method' button didn't get enabled")
         checkout.click_on_use_this_payment_method()
         self.assertion(checkout.verify_if_place_oder_button_is_enabled(), "'Place Order' button didn't get enabled")
+
+    def test_308_before_sign_in(self): # E2E-001: Complete Checkout Using COD, E2E-010: Existing Address Checkout, E2E-015: Gift Option Checkout
+        signin = SIGNIN(self.driver, self.wait)
+        homepage=HOMEPAGE(self.driver, self.wait)
+        username, password = ReadCredentials.get_credentials()
+
+        searchresults = homepage.search_for_an_item()
+        self.assertion(searchresults.verify_search_results_page(), "Search Result Page Verification failed")
+        product = searchresults.click_on_one_of_the_results()
+        product.switch_to_product_details_child_browser()
+        self.assertion(product.verify_product_details_page(), "Product details page didn't appear: Failed")
+        cartconfirm = product.add_product_to_cart_on_product_details_page()
+
+        self.assertion(cartconfirm.verifying_cart_confirmation_page(), "Product didn't add to cart: Cart Confirmation failed")
+        cart = cartconfirm.click_on_go_to_cart_button()
+        self.assertion(cart.verifying_cart_page(), "Cart page didn't open")
+        cart.click_on_this_order_contains_gift_checkbox()
+        checkout = cart.click_on_proceed_to_buy_on_cart_page()
+        self.assertion(signin.verifying_sign_in_page(), "Sign-in failed")
+        signin.enter_email_or_phone_number(username)
+        signin.enter_password(password)
+        self.assertion(checkout.verify_checkout_page(), "Checkout page didn't open")
+        assert checkout.verify_checkout_page(), "Checkout page didn't open"
+        checkout.click_on_safe_gift_options()
+        sleep(2)
+        self.assertion(not checkout.verify_if_use_this_payment_method_is_enabled(), " 'Use this payment method' button is enabled but it shouldn't be")
+        checkout.click_on_cash_on_delivery()
+        sleep(2)
+        self.assertion(checkout.verify_selection_of_COD(), "COD radio button didn't get selected")
+        self.assertion(checkout.verify_if_use_this_payment_method_is_enabled(), " 'Use this payment method' button enablility couldn't be confirmed")
+        checkout.click_on_use_this_payment_method()
+        self.assertion(checkout.verify_if_place_oder_button_is_enabled(), " 'Place Order' button didn't get enabled")
