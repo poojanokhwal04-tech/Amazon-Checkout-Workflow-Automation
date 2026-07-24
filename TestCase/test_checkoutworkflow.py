@@ -92,7 +92,7 @@ class TestCheckoutFlow(BASETEST):
 
         self.flow_from_proceed_to_buy_to_checkout_using_scan_and_pay()
 
-    def test_306_add_multiple_products(self): # E2E-006: Multiple Products Checkout,
+    def test_306_add_multiple_products(self): # E2E-006: Multiple Products Checkout
         product = self.flow_from_homepage_to_product_details_page()
 
         cartconfirm = product.add_product_to_cart_on_product_details_page()
