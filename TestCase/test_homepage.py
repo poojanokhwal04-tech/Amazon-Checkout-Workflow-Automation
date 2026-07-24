@@ -3,6 +3,6 @@ from TestCase.BaseTest import BASETEST
 
 class TestHomePage(BASETEST):
 
-    def test_001_verify_home_page(self):
+    def test_001_verify_home_page(self): # FT-011: Homepage verification
         homepagetitle= HOMEPAGE(self.driver,self.wait)
         self.assertion(homepagetitle.verify_homepage_title(), "Homepage Verification failed")
