@@ -40,8 +40,5 @@ class BASETEST:
         self.assertion(checkout.verify_selection_of_scan_and_pay(), " 'Scan and Pay' radio button didn't get selected")
         self.assertion(checkout.verify_if_use_this_payment_method_is_enabled(), " 'Use this payment method' button enablility couldn't be confirmed")
         checkout.click_on_use_this_payment_method()
-        try:
-            checkout.click_on_cross_to_close_popup()
-        except:
-            raise
+        checkout.click_on_cross_to_close_popup()
         self.assertion(checkout.verify_if_pay_with_upi_is_enabled(), " 'Pay with UPI' button didn't get enabled")

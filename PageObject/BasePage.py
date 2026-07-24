@@ -38,7 +38,7 @@ class BASEPAGE:
     # Verification methods
     def text_to_be_present(self, locator_variable, locator_value, text):
         if locator_variable.endswith("_xpath"):
-            return self.wait.until(EC.presence_of_all_elements_located((By.XPATH, locator_value)))
+            return self.wait.until(EC.text_to_be_present_in_element((By.XPATH, locator_value), text))
         else:
             raise ValueError(r'Unsupported locator in the user defined function "text_to_be_present" in "C:\Users\Lenovo\PycharmProjects\AMAZON_Checkout_Workflow_Automation\PageObject\BasePage.py": ({locator_variable} = "{locator_value}")')
 

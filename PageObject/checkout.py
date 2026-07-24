@@ -1,3 +1,6 @@
+from time import sleep
+
+from selenium.common import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from PageObject.BasePage import BASEPAGE
@@ -86,7 +89,11 @@ class CHECKOUT(BASEPAGE):
         return self.is_selected('radio_netbanking_xpath', self.radio_netbanking_xpath)
 
     def click_on_cross_to_close_popup(self):
-        self.click_on_element('button_popupcross_id', self.button_popupcross_id)
+        sleep(3)
+        try:
+            self.click_on_element('button_popupcross_id', self.button_popupcross_id)
+        except TimeoutException:
+            pass
         # self.wait.until(EC.element_to_be_clickable((By.XPATH, self.button_popupcross_xpath))).click()
 
     def verify_if_pay_with_net_banking_is_enabled(self):
@@ -96,7 +103,9 @@ class CHECKOUT(BASEPAGE):
         self.click_on_element('input_savegiftoptions_xpath', self.input_savegiftoptions_xpath)
 
     def get_itemsprice_only(self):
+        sleep(5)
         onlyitemsprice = self.get_element_text('text_itemsprice_xpath', self.text_itemsprice_xpath)
+        print(onlyitemsprice)
         return int(float(onlyitemsprice.replace("₹", "").replace(",", "")))
 
     # increase and decrease quantity
@@ -158,7 +167,6 @@ class CHECKOUT(BASEPAGE):
         self.click_on_make_this_my_default_address_checkbox()
         self.click_on_use_this_address()
         self.click_on_deliver_to_this_address()
-        return Addressline1
 
     def verify_checkout_page(self):
         return self.title_contains("Place Your Order - Amazon Checkout")

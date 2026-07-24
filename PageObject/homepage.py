@@ -1,3 +1,5 @@
+from selenium.common import TimeoutException
+
 from PageObject.BasePage import BASEPAGE
 from PageObject.cart import CART
 from PageObject.searchresults import SEARCHRESULTS
@@ -14,9 +16,16 @@ class HOMEPAGE(BASEPAGE):
     button_search_id='nav-search-submit-button'
     text_cartcount_id='nav-cart-count'
     text_confirmsignin_xpath='//span[text()="Hello, Pooja"]'
+    button_continueshopping_xpath = '//button[@type="submit"]'
 
     def verify_homepage_title(self):
         return self.title_contains("Amazon.in")
+
+    def click_on_continue_shopping_button(self):
+        try:
+            self.click_on_element('button_continueshopping_xpath',self.button_continueshopping_xpath)
+        except TimeoutException:
+            pass
 
     def verify_sign_in(self):
         return self.text_to_be_present('text_confirmsignin_xpath', self.text_confirmsignin_xpath,"Hello, Pooja")

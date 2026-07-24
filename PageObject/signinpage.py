@@ -1,3 +1,4 @@
+from selenium.common import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from PageObject.BasePage import BASEPAGE
@@ -46,6 +47,7 @@ class SIGNIN(BASEPAGE):
 
     def open_sign_in_page(self):
         homepage = HOMEPAGE(self.driver, self.wait)
+        homepage.click_on_continue_shopping_button()
         homepage.click_on_sign_in_link()
 
     def sign_in_with_valid_credentials(self):
@@ -54,3 +56,4 @@ class SIGNIN(BASEPAGE):
         self.enter_email_or_phone_number(username)
         self.enter_password(password)
         return HOMEPAGE(self.driver, self.wait)
+

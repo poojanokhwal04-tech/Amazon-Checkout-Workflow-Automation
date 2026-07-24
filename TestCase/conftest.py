@@ -3,7 +3,7 @@ from selenium.webdriver import Firefox,FirefoxOptions
 from selenium.webdriver import Chrome,ChromeOptions
 from selenium.webdriver.support.wait import WebDriverWait
 from Utilities import ReadConfigini
-from Utilities.ReadScreenshotPath import screenshotpath
+from Utilities import ReadScreenshotPath
 import pytest
 
 @pytest.fixture
@@ -24,9 +24,9 @@ def setup(request):
         o.add_experimental_option('detach', True)
         driver = Chrome(options=o)
 
-    wait=WebDriverWait(driver,20)
+    wait=WebDriverWait(driver,10)
     testname = request.node.nodeid.replace("::","-").replace("/", "-")
-    path = screenshotpath(testname)
+    path = ReadScreenshotPath.screenshotpath(testname)
 
     request.cls.driver=driver
     request.cls.wait=wait
@@ -34,4 +34,4 @@ def setup(request):
 
     driver.get(url)
     yield
-    driver.quit()
+    # driver.quit()
