@@ -157,7 +157,7 @@ Before running this project, ensure you have the following installed:
 ### Clone Repository
 
 ```bash
-git clone https://github.com/poojanokhwal04-tech/Amazon-Checkout-Workflow-Automation.git
+git clone https://github.com/poojanokhwal04-tech/amazon-india-web-automation-framework.git
 ```
 
 ### Navigate to the Project Directory
